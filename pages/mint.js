@@ -130,6 +130,7 @@ const Mint = () => {
 
   const mintNFT = async(metadata) =>{
     try {
+      console.log({nftMarketplaceReducer})
 
       const tx = await nftMarketplaceReducer.sellItem(metadata,etherToWei(price),nftReducer.address,{from:walletAddress,value:etherToWei("0.0001")})
       const receipt = await tx.wait();

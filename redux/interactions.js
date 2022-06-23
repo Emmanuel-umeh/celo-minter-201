@@ -4,8 +4,10 @@ import NFTMarketContract from "../artifacts/contracts/NFTMarket.sol/NFTMarket.js
 import NFTContract from "../artifacts/contracts/NFT.sol/NFT.json"
 import axios from "axios";
 
-var marketPlaceAddress = process.env.NFT_MARKET_CONTRACT_ADDRESS
-var nftAddress = process.env.NFT_CONTRACT_ADDRESS
+// var marketPlaceAddress = process.env.NFT_MARKET_CONTRACT_ADDRESS
+var marketPlaceAddress = "0x3B93f48aB3F02Ae1522D179aF3440FeFBEE8690f"
+// var nftAddress = process.env.NFT_CONTRACT_ADDRESS
+var nftAddress = "0xD98Cb02aA84Cd452af430538cF036FC72207Ffc4"
 
 export const formatNFTData = async(data,nftContract) =>{
   const tokenUri = await nftContract.tokenURI(data.token)
@@ -40,35 +42,36 @@ export const etherToWei = (n) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum,"any")
 
     dispatch(actions.web3Loaded(provider))
-    const addresses = await provider.listAccounts(); 
+    const addresses = await provider.listAccounts();
     dispatch(actions.walletAddressLoaded(addresses[0]))
     return provider;
     }
   }
-  
+
   export const loadContracts = async(provider,dispatch) =>{
 
-    const { chainId } = await provider.getNetwork()
-    if(chainId !== process.env.CHAIN_ID){
-      return {
-        marketplace:null,
-        nft:null
-      }
-    }
+    // const { chainId } = await provider.getNetwork()
+    // if(chainId !== process.env.CHAIN_ID){
+    //   return {
+    //     marketplace:null,
+    //     nft:null
+    //   }
+    // }
 
     var signer ;
-    const addresses = await provider.listAccounts(); 
+    const addresses = await provider.listAccounts();
     if(addresses.length > 0){
       signer = provider.getSigner()
     }else{
       signer = provider
     }
+      console.log({addresses})
     const nftMarketplaceContract = new ethers.Contract(marketPlaceAddress, NFTMarketContract.abi, signer);
     const nftContract = new ethers.Contract(nftAddress, NFTContract.abi, signer);
 
     dispatch(actions.nftMarketplaceContractLoaded(nftMarketplaceContract))
     dispatch(actions.nftContractLoaded(nftContract))
-    
+
     return {
         marketplace:nftMarketplaceContract,
         nft:nftContract
@@ -87,11 +90,11 @@ export const etherToWei = (n) => {
 
   export const loadUnsoldNFT = async(provider,marketplaceContract,nftContract,dispatch)=>{
 
-    const { chainId } = await provider.getNetwork()
-    if(chainId !== process.env.CHAIN_ID){
-      dispatch(actions.unsoldNFTLoaded([]))
-      return 
-    }
+    // const { chainId } = await provider.getNetwork()
+    // if(chainId !== process.env.CHAIN_ID){
+    //   dispatch(actions.unsoldNFTLoaded([]))
+    //   return
+    // }
 
     var unsoldNft = await marketplaceContract.fetchMarketItems()
     const formattedNFTList = await Promise.all(unsoldNft.map(nft=>{
@@ -104,13 +107,13 @@ export const etherToWei = (n) => {
 
   export const loadMintedNFT = async(provider,marketplaceContract,account,nftContract,dispatch)=>{
 
-    const { chainId } = await provider.getNetwork()
-    if(!account || chainId !== process.env.CHAIN_ID){
-      dispatch(actions.mintedNFTLoaded([]))
-      return
-    }
+    // const { chainId } = await provider.getNetwork()
+    // if(!account || chainId !== 44787){
+    //   dispatch(actions.mintedNFTLoaded([]))
+    //   return
+    // }
     var unsoldNft = await marketplaceContract.fetchCreatorItemsListed({from:account})
-    
+
     const formattedNFTList = await Promise.all(unsoldNft.map(nft=>{
       var res = formatNFTData(nft,nftContract)
       return res;
@@ -120,14 +123,14 @@ export const etherToWei = (n) => {
   }
 
   export const loadOwnedNFT = async(provider,marketplaceContract,account,nftContract,dispatch)=>{
-    
-    const { chainId } = await provider.getNetwork()
-    if(!account || chainId !== process.env.CHAIN_ID){
-      dispatch(actions.ownedNFTLoaded([]))
-      return 
-    }
+
+    // const { chainId } = await provider.getNetwork()
+    // if(!account || chainId !== process.env.CHAIN_ID){
+    //   dispatch(actions.ownedNFTLoaded([]))
+    //   return
+    // }
     var unsoldNft = await marketplaceContract.fetchOwnerItemsListed({from:account})
-    
+
     const formattedNFTList = await Promise.all(unsoldNft.map(nft=>{
       var res = formatNFTData(nft,nftContract)
       return res;
