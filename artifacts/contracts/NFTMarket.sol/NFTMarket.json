@@ -166,51 +166,6 @@
     },
     {
       "inputs": [],
-      "name": "fetchCreatorItemsListed",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "enum NFTMarket.ListingStatus",
-              "name": "status",
-              "type": "uint8"
-            },
-            {
-              "internalType": "address",
-              "name": "nftContract",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "owner",
-              "type": "address"
-            },
-            {
-              "internalType": "address payable",
-              "name": "creator",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "token",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "price",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct NFTMarket._Item[]",
-          "name": "",
-          "type": "tuple[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
       "name": "fetchMarketItems",
       "outputs": [
         {
@@ -338,6 +293,57 @@
           "internalType": "uint256",
           "name": "price",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "Items",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum NFTMarket.ListingStatus",
+              "name": "status",
+              "type": "uint8"
+            },
+            {
+              "internalType": "address",
+              "name": "nftContract",
+              "type": "address"
+            },
+            {
+              "internalType": "address payable",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address payable",
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "token",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "price",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct NFTMarket._Item[]",
+          "name": "",
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
